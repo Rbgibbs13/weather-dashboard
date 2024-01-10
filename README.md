@@ -7,3 +7,4 @@ Other than that I reference W3 or MDN regularly to correct syntax or help fix bu
 
 https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date
 https://stackoverflow.com/questions/847185/convert-a-unix-timestamp-to-time-in-javascript
+Deployed : https://rbgibbs13.github.io/weather-dashboard/
