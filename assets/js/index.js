@@ -37,7 +37,7 @@ let searchParams = {
 
 //fetch the geolocation data from city
 const FetchData = () => {
-    var geoURL = "http://api.openweathermap.org/geo/1.0/direct?q=" + searchParams.cityName + "&limit=" + searchParams.limitOption + searchParams.appID;
+    var geoURL = "https://api.openweathermap.org/geo/1.0/direct?q=" + searchParams.cityName + "&limit=" + searchParams.limitOption + searchParams.appID;
 
     fetch(geoURL , {
         method: 'GET',
