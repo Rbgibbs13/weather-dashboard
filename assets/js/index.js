@@ -97,9 +97,9 @@ const GenerateDayForecast = (weatherData, state) => {
     divEl.classList.add("dataDiv");
     spanEl.classList.add("material-symbols-outlined");
     if(state === undefined) {
-        headEl.textContent = searchParams.cityName + " (" + ConvertUnix(weatherData.dt) +")";
+        headEl.textContent = searchParams.cityName + " (" + ConvertUnix(weatherData.dt) +") ";
     } else {
-        headEl.textContent = searchParams.cityName + ", " + state + " (" + ConvertUnix(weatherData.dt) +")";
+        headEl.textContent = searchParams.cityName + ", " + state + " (" + ConvertUnix(weatherData.dt) +") ";
     }
 
     if(weatherData.clouds.all < 25) {
@@ -128,7 +128,7 @@ const GenerateDayForecast = (weatherData, state) => {
 
     divEl.append(headEl);
     divEl.append(listParent);
-    cloudEl.append(spanEl);
+    headEl.append(spanEl);
     listParent.append(cloudEl);
     listParent.append(tempEl);
     listParent.append(windEl);
