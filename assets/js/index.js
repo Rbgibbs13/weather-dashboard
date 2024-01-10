@@ -56,6 +56,7 @@ const FetchData = () => {
             return response.json();
         }).then(function(data) {
             //Daily forecast data
+            console.log(data);
             holdWeatherData = data;
             GenerateDayForecast(data, stateName);
         });
