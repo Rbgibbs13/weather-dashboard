@@ -27,7 +27,7 @@ header {
 .btn {
     color: white;
     background-color: var(--blue-color);
-    border: .2rem solid white;
+    border: .2rem solid black;
     border-radius: 15px;
     min-height: 2rem;
     width: 80%;
@@ -67,20 +67,27 @@ header {
 .content-container {
     display: flex;
     border-bottom: .2rem solid black;
-    min-height: 30rem;
+    min-height: 34rem;
     width: 100%;
+}
+
+.content-container .material-symbols-outlined {
+    margin-top: .4rem;
+    margin-right: .2rem;
+    font-size: 200% !important;
 }
 
 #search-label {
     display: inline-block;
-    margin: 0% 5%;
-    width: 100%;
+    margin: 0% 0% 0% 0%;
     font-family: var(--title-font);
+    text-align: right;
+    width: 10%;
 }
 
 #search-input {
-    margin: 1% 5%;
-    width: 90%;
+    margin: 1% 5% 5% 0%;
+    width: 80%;
 }
 
 #search-btn-text {
@@ -96,6 +103,7 @@ header {
 .location-search h1 {
     font-size: 150%;
     font-family: var(--alt-font);
+    text-shadow: .3rem .3rem var(--shadow-color);
     text-align: center;
 }
 
@@ -117,15 +125,20 @@ header {
     height: 100%;
 }
 
+#location ul {
+    margin: 1% 1%;
+}
+
 #location h2 {
     display: inline-block;
     font-family: var(--alt-font);
     padding: 0;
-    margin: 1% 2%;
+    margin: 1% 2% 0% 2%;
     width: 50%;
 }
 
 #location ul {
+    margin: 0% 2%;
     list-style: none;
     font-family: var(--title-font);
 }
@@ -142,6 +155,43 @@ header {
 #forecast {
     display: flex;
     background-color: var(--grey-color);
+}
+
+.horizontal-rule {
+    width: 80%;
+}
+
+.local-storage-btn {
+    background-color: var(--blue-color);
+    border: .2rem solid black;
+    border-radius: 25px;
+    color: white;
+    display: flex;
+    margin: 2% 10%;
+    min-height: 2rem;
+    width: 80%;
+}
+
+.local-storage-btn:hover {
+    background-color: var(--grey-color);
+    transition-duration: 1s;
+}
+
+.local-storage-btn h2 {
+    font-family: var(--alt-font);
+    font-size: 100%;
+    text-align: center;
+    width: 100%;
+}
+
+.remove-storage-btn:hover {
+
+}
+
+.remove-storage-btn:hover .material-symbols-outlined {
+    color: black;
+    cursor: pointer;
+    transition-duration: 1s;
 }
 
 .material-symbols-outlined {

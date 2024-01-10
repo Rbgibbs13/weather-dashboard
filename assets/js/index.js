@@ -4,6 +4,7 @@ let locationEl = document.querySelector("#location");
 let forecastEl = document.querySelector("#forecast");
 let inputEl = document.querySelector("#search-input");
 let submitBtnEl = document.querySelector("#search-btn");
+let locationSearchParentEl = document.querySelector(".location-search");
 
 let savedSearches = 0;
 
@@ -38,6 +39,7 @@ const FetchData = () => {
         return response.json();
     }).then(function(data) {
         console.log(data[0]);
+        var stateName = data[0].state;
     
         //Build a url with geo data and fetch weather data with it
         var weatherURL = "https://api.openweathermap.org/data/2.5/weather?lat=" + data[0].lat + "&lon=" + data[0].lon
@@ -49,7 +51,7 @@ const FetchData = () => {
             return response.json();
         }).then(function(data) {
             //Daily forecast data
-            GenerateDayForecast(data);
+            GenerateDayForecast(data, stateName);
         });
     
         var forecastURL = "https://api.openweathermap.org/data/2.5/forecast?lat=" + data[0].lat + "&lon=" + data[0].lon
@@ -67,8 +69,11 @@ const FetchData = () => {
     });
 }
 
-const GenerateDayForecast = (weatherData) => {
+const GenerateDayForecast = (weatherData, state) => {
     console.log(weatherData);
+    //Check for existing data and remove
+    var check = document.querySelector(".dataDiv");
+    if(check) { check.remove(); }
 
     var divEl = document.createElement("div");
     var headEl = document.createElement("h2");
@@ -77,13 +82,14 @@ const GenerateDayForecast = (weatherData) => {
     var listParent = document.createElement("ul");
     var tempEl = document.createElement("li");
     var windEl = document.createElement("li");
+    var windDirectionEl = document.createElement("li");
     var humidityEl = document.createElement("li");
     var pressureEl = document.createElement("li");
     var cloudEl = document.createElement("li");
 
     divEl.classList.add("dataDiv");
     spanEl.classList.add("material-symbols-outlined");
-    headEl.textContent = searchParams.cityName + " (" + ConvertUnix(weatherData.dt) +") ";
+    headEl.textContent = searchParams.cityName + ", " + state + " (" + ConvertUnix(weatherData.dt) +") ";
 
     if(weatherData.clouds.all < 25) {
         spanEl.textContent = "clear_day";
@@ -98,7 +104,8 @@ const GenerateDayForecast = (weatherData) => {
     
     cloudEl.textContent = "Cloud Cover: " + weatherData.clouds.all + "% ";
     tempEl.textContent = "Temp: " + ConvertKtoF(weatherData.main.temp) + "°F";
-    windEl.textContent = "Wind: " + Math.floor(weatherData.wind.speed * 22.37)/10 + " MPH";
+    windEl.textContent = "Wind Speed: " + Math.floor(weatherData.wind.speed * 10)/10 + " MPH";
+    windDirectionEl.textContent = "Wind Direction: " + ConvertWindDirection(weatherData.wind.deg);
     humidityEl.textContent = "Humidity: " + weatherData.main.humidity + "%";
     pressureEl.textContent = "Pressure: " + (weatherData.main.pressure/1000) + " bar";
 
@@ -107,6 +114,7 @@ const GenerateDayForecast = (weatherData) => {
     cloudEl.append(spanEl);
     listParent.append(tempEl);
     listParent.append(windEl);
+    listParent.append(windDirectionEl);
     listParent.append(humidityEl);
     listParent.append(pressureEl);
     listParent.append(cloudEl);
@@ -119,9 +127,99 @@ const GenerateFiveDayForecast = (weatherData) => {
 
 }
 
+const GenerateLocalStorageList = () => {
+    savedSearches = localStorage.length;
+    var maxSearches = 5;
+
+    for(let i = 0; i < localStorage.length; i++) {
+        if(i > maxSearches) { return; }
+        AddSearchToStorageList(i);
+    }
+}
+
+const AddSearchToStorageList = (input) => {
+    var val = localStorage.getItem(input);
+    var btnEl = document.createElement("btn");
+    var removeBtnEl = document.createElement("btn");
+    var spanEl = document.createElement("span");
+    var textEl = document.createElement("h2");
+
+    btnEl.classList.add("local-storage-btn");
+    spanEl.classList.add("material-symbols-outlined");
+    removeBtnEl.classList.add("remove-storage-btn");
+    removeBtnEl.setAttribute("data-list-index", input);
+    textEl.textContent = val;
+    spanEl.textContent = "cancel";
+
+    btnEl.append(textEl);
+    btnEl.append(removeBtnEl);
+    removeBtnEl.append(spanEl);
+    locationSearchParentEl.append(btnEl);
+
+    btnEl.addEventListener("click", function() {
+        searchParams.cityName = textEl.textContent;
+        FetchData();
+    });
+
+    removeBtnEl.addEventListener("click", function(event) {
+        RemoveFromStorage(this.getAttribute("data-list-index"));
+        event.stopPropagation();
+        this.parentElement.remove();
+    });
+}
+
 const StorePreviousSearch = () => {
+    for(let i = 0; i < localStorage.length; i++) {
+        if(localStorage.getItem(i) == searchParams.cityName) {
+            return;
+        }
+    }
     localStorage.setItem(savedSearches, searchParams.cityName);
+    AddSearchToStorageList(savedSearches);
     savedSearches++;
+}
+
+const RemoveFromStorage = (index) => {
+    console.log(index);
+    var localLength = localStorage.length;
+    //localStorage.removeItem(index);
+    //index++;
+
+    //Move everything in storage up one index
+    if(index < localLength) {
+        for(let i = index; i < localLength; i++) {
+            var holdVal = localStorage.getItem(i);
+            console.log(holdVal);
+            if(i > 0) {
+                localStorage.setItem(i-1, holdVal);
+            }
+            localStorage.removeItem(i);
+        }
+    }
+
+    savedSearches = localStorage.length;
+}
+
+const ConvertWindDirection = (windDir) => {
+    var build = "";
+    if(windDir <= 45 ) {
+        //FROM north TO south
+        build += "S";
+    } else if(windDir > 45 && windDir <= 135) {
+        //FROM east
+        build += "W";
+    } else if(windDir > 135 && windDir <= 225) {
+        //FROM south
+        build += "N";
+    } else if(windDir > 225 && windDir <= 315) {
+        //FROM west
+        build += "E";
+    } else {
+        //315-360 FROM north
+        build += "S";
+    }
+
+    return build;
 }
 
 const ConvertKtoC = (kelvin) => {
@@ -174,6 +272,13 @@ const ConvertUnix = (unixTime) => {
     return formatTime + formatDate;
 }
 
+
+GenerateLocalStorageList();
 submitBtnEl.addEventListener("click", function(event) {
     HandleUserInput();
+});
+inputEl.addEventListener("keypress", function(key) {
+    if(key.key == "Enter") {
+        HandleUserInput();
+    }
 });
