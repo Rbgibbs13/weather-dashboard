@@ -7,6 +7,7 @@
     --shadow-color: rgba(128, 128, 128, 0.358);
     --title-font: Arial, Helvetica, sans-serif;
     --alt-font: 'Salsa', cursive;
+    --border-radius: 25px;
 }
 
 html, body {
@@ -28,8 +29,8 @@ header {
     color: white;
     background-color: var(--blue-color);
     border: .2rem solid black;
-    border-radius: 15px;
-    min-height: 2rem;
+    border-radius: var(--border-radius);
+    min-height: 3rem;
     width: 80%;
     margin: 2% 10%;
 }
@@ -212,7 +213,7 @@ header {
 .local-storage-btn {
     background-color: var(--blue-color);
     border: .2rem solid black;
-    border-radius: 25px;
+    border-radius: var(--border-radius);
     color: white;
     display: flex;
     margin: 2% 10%;
