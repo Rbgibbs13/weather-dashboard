@@ -67,7 +67,7 @@ header {
 .content-container {
     display: flex;
     border-bottom: .2rem solid black;
-    min-height: 34rem;
+    min-height: 40rem;
     width: 100%;
 }
 
@@ -77,17 +77,21 @@ header {
     font-size: 200% !important;
 }
 
+.switch {
+    margin: 0;
+}
+
 #search-label {
     display: inline-block;
     margin: 0% 0% 0% 0%;
     font-family: var(--title-font);
     text-align: right;
-    width: 10%;
+    width: 8%;
 }
 
 #search-input {
-    margin: 1% 5% 5% 0%;
-    width: 80%;
+    margin: 1% 0% 0% 0%;
+    width: 72%;
 }
 
 #search-btn-text {
@@ -111,12 +115,9 @@ header {
     width: 70%;
 }
 
-.returned-content div {
-    height: 50%;
-}
-
 #location {
     display: flex;
+    height: 40%;
     background-color: var(--shadow-color);
 }
 
@@ -153,8 +154,55 @@ header {
 }
 
 #forecast {
+    background-color: var(--shadow-color);
+    border-top: .2rem solid black;
     display: flex;
-    background-color: var(--grey-color);
+    height: 60%;
+}
+
+.forecast-parent-div {
+    height: 100%;
+    width: 100%;
+}
+
+.forecast-container {
+    display: flex;
+    height: 82%;
+    overflow-x: scroll;
+    width: 100%;
+}
+
+#forecast h2 {
+    display: inline-block;
+    font-family: var(--alt-font);
+    padding: 0;
+    margin: 1% 2% 0% 2%;
+    width: 100%;
+}
+
+.forecast-segment-div {
+    border: .2rem solid var(--blue-color);
+    margin: .5rem .5rem;
+    min-width: 25%;
+    min-height: 80%;
+}
+
+.forecast-segment-div h2{
+    text-align: center;
+    margin: 0% !important;
+}
+
+.forecast-segment-div ul {
+    list-style: none;
+    max-width: 90%;
+    margin: 0% 5%;
+    padding: 0;
+    font-size: 150%;
+    font-family: var(--title-font);
+}
+
+.forecast-segment-div li {
+    margin-bottom: 5%;
 }
 
 .horizontal-rule {
@@ -184,12 +232,8 @@ header {
     width: 100%;
 }
 
-.remove-storage-btn:hover {
-
-}
-
 .remove-storage-btn:hover .material-symbols-outlined {
-    color: black;
+    color: red;
     cursor: pointer;
     transition-duration: 1s;
 }
